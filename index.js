@@ -7,7 +7,7 @@ const markerList = document.getElementById("markerList");
 const sidebar = document.getElementById("sidebar");
 const mapDiv = document.getElementById("map");
 
-const markerRefs = [];
+let markerRefs = [];
 
 fetch('marker-data.json')
   .then(res => res.json())
@@ -32,20 +32,10 @@ fetch('marker-data.json')
       groupList.className = "group-list";
       groupList.style.maxHeight = "0px";
 
-      groupTitle.addEventListener("click", () => {
-        const isExpanded = groupList.classList.contains("expanded");
-        if (isExpanded) {
-          groupList.style.maxHeight = "0px";
-          groupList.classList.remove("expanded");
-        } else {
-          groupList.style.maxHeight = groupList.scrollHeight + "px";
-          groupList.classList.add("expanded");
-        }
-      });
-
+      // Buat semua marker tapi belum ditampilkan di map
       grouped[category].forEach(m => {
-        const marker = L.marker(m.coords).addTo(map).bindPopup(`<h3>${m.name}</h3>`);
-        markerRefs.push({ marker, name: m.name.toLowerCase() });
+        const marker = L.marker(m.coords).bindPopup(`<h3>${m.name}</h3>`);
+        markerRefs.push({ marker, name: m.name.toLowerCase(), category });
 
         const li = document.createElement("li");
         li.className = "marker-item";
@@ -57,12 +47,40 @@ fetch('marker-data.json')
         `;
 
         li.addEventListener("click", () => {
-          map.setView(m.coords, 17);
-          marker.openPopup();
-          toggleSidebar(false);
+          const ref = markerRefs.find(ref => ref.name === m.name.toLowerCase());
+          if (ref) {
+            map.setView(m.coords, 17);
+            ref.marker.openPopup();
+            toggleSidebar(false);
+          }
         });
 
         groupList.appendChild(li);
+      });
+
+      groupTitle.addEventListener("click", () => {
+        const isExpanded = groupList.classList.contains("expanded");
+
+        // Tutup semua kategori
+        document.querySelectorAll(".group-list").forEach(list => {
+          list.style.maxHeight = "0px";
+          list.classList.remove("expanded");
+        });
+
+        // Hapus semua marker dari map
+        markerRefs.forEach(ref => {
+          if (map.hasLayer(ref.marker)) map.removeLayer(ref.marker);
+        });
+
+        if (!isExpanded) {
+          // Expand dan tambahkan marker kategori ini
+          groupList.style.maxHeight = groupList.scrollHeight + "px";
+          groupList.classList.add("expanded");
+
+          markerRefs
+            .filter(ref => ref.category === category)
+            .forEach(ref => ref.marker.addTo(map));
+        }
       });
 
       groupWrapper.appendChild(groupTitle);
@@ -70,7 +88,6 @@ fetch('marker-data.json')
       markerList.appendChild(groupWrapper);
     }
   });
-
 
 function toggleSidebar(force = null) {
   const open = sidebar.classList.contains("active");
@@ -91,11 +108,11 @@ function filterMarkers() {
     item.style.display = name.includes(input) ? "flex" : "none";
   });
 }
-document.addEventListener('click', function (e) {
-const isSidebar = sidebar.contains(e.target);
-const isToggle = e.target.classList.contains("sidebar-toggle");
 
-if (!isSidebar && !isToggle) {
-  toggleSidebar(false);
-}
+document.addEventListener('click', function (e) {
+  const isSidebar = sidebar.contains(e.target);
+  const isToggle = e.target.classList.contains("sidebar-toggle");
+  if (!isSidebar && !isToggle) {
+    toggleSidebar(false);
+  }
 });
