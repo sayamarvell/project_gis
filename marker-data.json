@@ -1,21 +1,122 @@
 [
-    {
-      "name": "ITC MALL",
-      "coords": [-7.2415096462507185, 112.7466261508911],
-      "icon": "🏬",
-      "image": "https://via.placeholder.com/100x60?text=ITC"
-    },
-    {
-      "name": "Telkom Landmark Tower",
-      "coords": [-7.285033440562942, 112.78138957124374],
-      "icon": "🏢",
-      "image": "https://via.placeholder.com/100x60?text=Telkom"
-    },
-    {
-      "name": "Stasiun Gubeng",
-      "coords": [-7.265884, 112.752088],
-      "icon": "🚉",
-      "image": "https://via.placeholder.com/100x60?text=Gubeng"
-    }
-  ]
-  
+  {
+    "name": "Counter Data Pak Joko",
+    "coords": [-7.320217, 112.737353],
+    "icon": "📱",
+    "category": "Sidoarjo"
+  },
+  {
+    "name": "Agen Pulsa Bu Rina",
+    "coords": [-7.328160, 112.720651],
+    "icon": "📱",
+    "category": "Sidoarjo"
+  },
+  {
+    "name": "Warung Data Krian Cell",
+    "coords": [-7.409983, 112.591227],
+    "icon": "📱",
+    "category": "Sidoarjo"
+  },
+  {
+    "name": "Toko Paket Delta Mobile",
+    "coords": [-7.451082, 112.709471],
+    "icon": "📱",
+    "category": "Sidoarjo"
+  },
+  {
+    "name": "Counter Internet Candi",
+    "coords": [-7.505778, 112.693225],
+    "icon": "📱",
+    "category": "Sidoarjo"
+  },
+  {
+    "name": "Counter Data Tanggulangin",
+    "coords": [-7.496058, 112.665237],
+    "icon": "📱",
+    "category": "Sidoarjo"
+  },
+  {
+    "name": "Pusat Kuota Sidoarjo Kota",
+    "coords": [-7.448689, 112.714127],
+    "icon": "📱",
+    "category": "Sidoarjo"
+  },
+  {
+    "name": "Kios Paket Jabon",
+    "coords": [-7.501482, 112.749934],
+    "icon": "📱",
+    "category": "Sidoarjo"
+  },
+  {
+    "name": "Warung Data Porong",
+    "coords": [-7.558278, 112.699011],
+    "icon": "📱",
+    "category": "Sidoarjo"
+  },
+  {
+    "name": "Pojok Pulsa Gedangan",
+    "coords": [-7.395191, 112.751994],
+    "icon": "📱",
+    "category": "Sidoarjo"
+  },
+  {
+    "name": "Surabaya Data Center",
+    "coords": [-7.274194, 112.737379],
+    "icon": "📱",
+    "category": "Surabaya"
+  },
+  {
+    "name": "Toko Paket Gubeng",
+    "coords": [-7.275583, 112.751676],
+    "icon": "📱",
+    "category": "Surabaya"
+  },
+  {
+    "name": "Pojok Data Keputih",
+    "coords": [-7.285246, 112.797613],
+    "icon": "📱",
+    "category": "Surabaya"
+  },
+  {
+    "name": "Paket Internet Tidar Cell",
+    "coords": [-7.284095, 112.720926],
+    "icon": "📱",
+    "category": "Surabaya"
+  },
+  {
+    "name": "Warung Kuota Semolowaru",
+    "coords": [-7.287514, 112.796442],
+    "icon": "📱",
+    "category": "Surabaya"
+  },
+  {
+    "name": "Toko Data Dukuh Kupang",
+    "coords": [-7.283774, 112.709745],
+    "icon": "📱",
+    "category": "Surabaya"
+  },
+  {
+    "name": "Kios Pulsa Pakuwon",
+    "coords": [-7.293928, 112.660043],
+    "icon": "📱",
+    "category": "Surabaya"
+  },
+  {
+    "name": "Agen Kuota Rungkut",
+    "coords": [-7.319054, 112.786138],
+    "icon": "📱",
+    "category": "Surabaya"
+  },
+  {
+    "name": "Warung Data Ngagel",
+    "coords": [-7.292130, 112.740693],
+    "icon": "📱",
+    "category": "Surabaya"
+  },
+  {
+    "name": "Paket Net Karang Pilang",
+    "coords": [-7.334142, 112.680065],
+    "icon": "📱",
+    "category": "Surabaya"
+  }
+]

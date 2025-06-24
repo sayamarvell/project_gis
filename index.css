@@ -3,7 +3,31 @@ html, body {
     padding: 0;
     height: 100%;
   }
-
+  .group-wrapper {
+    margin-bottom: 10px;
+  }
+  
+  .group-title {
+    font-weight: bold;
+    cursor: pointer;
+    padding: 8px 10px;
+    background: #f0f0f0;
+    border-left: 3px solid #0077ff;
+    transition: background 0.3s;
+  }
+  
+  .group-title:hover {
+    background: #e0e0e0;
+  }
+  
+  .group-list {
+    list-style: none;
+    padding-left: 10px;
+    margin: 0;
+    overflow: hidden;
+    max-height: 0;
+    transition: max-height 0.3s ease;
+  }
   .navbar {
     height: 50px;
     background-color: #222;

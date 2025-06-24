@@ -12,28 +12,65 @@ const markerRefs = [];
 fetch('marker-data.json')
   .then(res => res.json())
   .then(data => {
-    data.forEach((m, i) => {
-      const marker = L.marker(m.coords).addTo(map).bindPopup(`<h3>${m.name}</h3>`);
-      markerRefs.push({ marker, name: m.name.toLowerCase() });
+    const grouped = {};
 
-      const li = document.createElement("li");
-      li.className = "marker-item";
-      li.setAttribute("data-name", m.name.toLowerCase());
+    data.forEach(m => {
+      const category = m.category || "Lainnya";
+      if (!grouped[category]) grouped[category] = [];
+      grouped[category].push(m);
+    });
 
-      li.innerHTML = `
-        <div class="marker-icon">${m.icon || "📍"}</div>
-        <div class="marker-info">${m.name}</div>
-      `;
+    for (const category in grouped) {
+      const groupWrapper = document.createElement("div");
+      groupWrapper.className = "group-wrapper";
 
-      li.addEventListener("click", () => {
-        map.setView(m.coords, 17);
-        marker.openPopup();
-        toggleSidebar(false);
+      const groupTitle = document.createElement("div");
+      groupTitle.className = "group-title";
+      groupTitle.innerText = category;
+
+      const groupList = document.createElement("ul");
+      groupList.className = "group-list";
+      groupList.style.maxHeight = "0px";
+
+      groupTitle.addEventListener("click", () => {
+        const isExpanded = groupList.classList.contains("expanded");
+        if (isExpanded) {
+          groupList.style.maxHeight = "0px";
+          groupList.classList.remove("expanded");
+        } else {
+          groupList.style.maxHeight = groupList.scrollHeight + "px";
+          groupList.classList.add("expanded");
+        }
       });
 
-      markerList.appendChild(li);
-    });
+      grouped[category].forEach(m => {
+        const marker = L.marker(m.coords).addTo(map).bindPopup(`<h3>${m.name}</h3>`);
+        markerRefs.push({ marker, name: m.name.toLowerCase() });
+
+        const li = document.createElement("li");
+        li.className = "marker-item";
+        li.setAttribute("data-name", m.name.toLowerCase());
+
+        li.innerHTML = `
+          <div class="marker-icon">${m.icon || "📍"}</div>
+          <div class="marker-info">${m.name}</div>
+        `;
+
+        li.addEventListener("click", () => {
+          map.setView(m.coords, 17);
+          marker.openPopup();
+          toggleSidebar(false);
+        });
+
+        groupList.appendChild(li);
+      });
+
+      groupWrapper.appendChild(groupTitle);
+      groupWrapper.appendChild(groupList);
+      markerList.appendChild(groupWrapper);
+    }
   });
+
 
 function toggleSidebar(force = null) {
   const open = sidebar.classList.contains("active");
