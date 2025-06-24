@@ -1,0 +1,94 @@
+html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+  }
+
+  .navbar {
+    height: 50px;
+    background-color: #222;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 20px;
+    position: relative;
+    z-index: 1001;
+  }
+
+.sidebar-toggle {
+  font-size: 24px;
+  cursor: pointer;
+}
+
+#map {
+    height: calc(100vh - 50px);
+    width: 100%;
+  }
+
+.sidebar {
+  position: fixed;
+  top: 0;
+  right: -320px;
+  width: 320px;
+  height: 100%;
+  background: #fff;
+  box-shadow: -2px 0 6px rgba(0,0,0,0.3);
+  transition: right 0.3s ease;
+  z-index: 999;
+  overflow-y: auto;
+}
+
+.sidebar.active {
+  right: 0;
+}
+
+.sidebar h3 {
+  margin: 0;
+  padding: 15px;
+  background: #007bff;
+  color: white;
+}
+
+.search-box {
+  padding: 10px;
+}
+
+.search-box input {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.marker-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.marker-item {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  padding: 10px;
+  border-bottom: 1px solid #eee;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.marker-item:hover {
+  background-color: #f0f0f0;
+}
+
+.marker-info {
+  flex-grow: 1;
+}
+
+.marker-icon {
+  font-size: 20px;
+}
+
+#map.sidebar-open {
+  margin-right: 320px;
+}

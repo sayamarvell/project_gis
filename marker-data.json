@@ -1,0 +1,21 @@
+[
+    {
+      "name": "ITC MALL",
+      "coords": [-7.2415096462507185, 112.7466261508911],
+      "icon": "🏬",
+      "image": "https://via.placeholder.com/100x60?text=ITC"
+    },
+    {
+      "name": "Telkom Landmark Tower",
+      "coords": [-7.285033440562942, 112.78138957124374],
+      "icon": "🏢",
+      "image": "https://via.placeholder.com/100x60?text=Telkom"
+    },
+    {
+      "name": "Stasiun Gubeng",
+      "coords": [-7.265884, 112.752088],
+      "icon": "🚉",
+      "image": "https://via.placeholder.com/100x60?text=Gubeng"
+    }
+  ]
+  
