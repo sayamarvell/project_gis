@@ -9,20 +9,37 @@
 </head>
 <body>
 
-<div class="navbar">
-  <div class="navbar-title">📍 My WebGIS</div>
-  <div class="sidebar-toggle" onclick="toggleSidebar()">☰</div>
-</div>
-
-<div class="sidebar" id="sidebar">
-  <h3>Daftar Lokasi</h3>
-  <div class="search-box">
-    <input type="text" id="searchInput" placeholder="Cari lokasi..." onkeyup="filterMarkers()">
+  <div class="navbar">
+    📍 My WebGIS
   </div>
-  <ul class="marker-list" id="markerList"></ul>
-</div>
-<div id="map"></div>
-<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
-<script src="index.js"></script>
+
+  <!-- Filter dan Panel Lokasi dalam satu baris -->
+  <div id="filterBar">
+    <select id="provinsiSelect">
+      <option value="">-- Pilih Provinsi --</option>
+    </select>
+    <select id="kotaSelect" disabled>
+      <option value="">-- Pilih Kota/Kabupaten --</option>
+    </select>
+    <select id="kecamatanSelect" disabled>
+      <option value="">-- Pilih Kecamatan --</option>
+    </select>
+    <select id="kelurahanSelect" disabled>
+      <option value="">-- Pilih Kelurahan/Desa --</option>
+    </select>
+  </div>
+
+    <div id="markerPanel" class="hidden">
+      <h3>Daftar Lokasi</h3>
+      <div id="markerListContainer"></div>
+    </div>
+  </div>
+
+  <!-- Peta -->
+  <div id="map"></div>
+
+  <!-- Script -->
+  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+  <script src="index.js"></script>
 </body>
 </html>

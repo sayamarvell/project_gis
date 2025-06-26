@@ -3,116 +3,132 @@ L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
   attribution: '© OpenStreetMap contributors'
 }).addTo(map);
 
-const markerList = document.getElementById("markerList");
-const sidebar = document.getElementById("sidebar");
-const mapDiv = document.getElementById("map");
-
 let markerRefs = [];
+let grouped = {};
+
+const provinsiSelect = document.getElementById("provinsiSelect");
+const kotaSelect = document.getElementById("kotaSelect");
+const kecamatanSelect = document.getElementById("kecamatanSelect");
+const kelurahanSelect = document.getElementById("kelurahanSelect");
+const markerListContainer = document.getElementById("markerListContainer");
 
 fetch('marker-data.json')
   .then(res => res.json())
   .then(data => {
-    const grouped = {};
-
     data.forEach(m => {
       const category = m.category || "Lainnya";
       if (!grouped[category]) grouped[category] = [];
       grouped[category].push(m);
     });
+  });
 
-    for (const category in grouped) {
-      const groupWrapper = document.createElement("div");
-      groupWrapper.className = "group-wrapper";
+fetch("https://www.emsifa.com/api-wilayah-indonesia/api/provinces.json")
+  .then(res => res.json())
+  .then(data => {
+    data.forEach(prov => {
+      const option = document.createElement("option");
+      option.value = prov.id;
+      option.textContent = prov.name;
+      provinsiSelect.appendChild(option);
+    });
+  });
 
-      const groupTitle = document.createElement("div");
-      groupTitle.className = "group-title";
-      groupTitle.innerText = category;
+provinsiSelect.addEventListener("change", function () {
+  const provId = this.value;
+  kotaSelect.innerHTML = `<option value="">-- Pilih Kota/Kabupaten --</option>`;
+  kecamatanSelect.innerHTML = `<option value="">-- Pilih Kecamatan --</option>`;
+  kelurahanSelect.innerHTML = `<option value="">-- Pilih Kelurahan --</option>`;
+  kotaSelect.disabled = true;
+  kecamatanSelect.disabled = true;
+  kelurahanSelect.disabled = true;
 
-      const groupList = document.createElement("ul");
-      groupList.className = "group-list";
-      groupList.style.maxHeight = "0px";
+  if (!provId) return;
 
-      // Buat semua marker tapi belum ditampilkan di map
-      grouped[category].forEach(m => {
+  fetch(`https://www.emsifa.com/api-wilayah-indonesia/api/regencies/${provId}.json`)
+    .then(res => res.json())
+    .then(data => {
+      data.forEach(kota => {
+        const option = document.createElement("option");
+        option.value = kota.id;
+        option.textContent = kota.name;
+        kotaSelect.appendChild(option);
+      });
+      kotaSelect.disabled = false;
+    });
+});
+
+kotaSelect.addEventListener("change", function () {
+  const kotaId = this.value;
+  kecamatanSelect.innerHTML = `<option value="">-- Pilih Kecamatan --</option>`;
+  kelurahanSelect.innerHTML = `<option value="">-- Pilih Kelurahan --</option>`;
+  kecamatanSelect.disabled = true;
+  kelurahanSelect.disabled = true;
+
+  if (!kotaId) return;
+
+  fetch(`https://www.emsifa.com/api-wilayah-indonesia/api/districts/${kotaId}.json`)
+    .then(res => res.json())
+    .then(data => {
+      data.forEach(kec => {
+        const option = document.createElement("option");
+        option.value = kec.id;
+        option.textContent = kec.name;
+        kecamatanSelect.appendChild(option);
+      });
+      kecamatanSelect.disabled = false;
+    });
+});
+
+kecamatanSelect.addEventListener("change", function () {
+  const kecId = this.value;
+  kelurahanSelect.innerHTML = `<option value="">-- Pilih Kelurahan --</option>`;
+  kelurahanSelect.disabled = true;
+
+  if (!kecId) return;
+
+  fetch(`https://www.emsifa.com/api-wilayah-indonesia/api/villages/${kecId}.json`)
+    .then(res => res.json())
+    .then(data => {
+      data.forEach(kel => {
+        const option = document.createElement("option");
+        option.value = kel.name; 
+        option.textContent = kel.name;
+        kelurahanSelect.appendChild(option);
+      });
+      kelurahanSelect.disabled = false;
+    });
+});
+
+kelurahanSelect.addEventListener("change", function () {
+  const selectedKelurahan = this.value;
+  markerListContainer.innerHTML = "";
+
+  markerRefs.forEach(ref => {
+    if (map.hasLayer(ref.marker)) map.removeLayer(ref.marker);
+  });
+  markerRefs = [];
+
+  if (!selectedKelurahan) return;
+
+  for (const category in grouped) {
+    grouped[category].forEach(m => {
+      if (m.category === selectedKelurahan) {
         const marker = L.marker(m.coords).bindPopup(`<h3>${m.name}</h3>`);
+        marker.addTo(map);
+
         markerRefs.push({ marker, name: m.name.toLowerCase(), category });
 
-        const li = document.createElement("li");
-        li.className = "marker-item";
-        li.setAttribute("data-name", m.name.toLowerCase());
+        const itemDiv = document.createElement("div");
+        itemDiv.className = "marker-item";
+        itemDiv.setAttribute("data-name", m.name.toLowerCase());
+        itemDiv.innerHTML = `<span style="margin-right: 8px;">${m.icon || "📍"}</span><strong>${m.name}</strong>`;
+        itemDiv.onclick = () => {
+          map.setView(m.coords, 17);
+          marker.openPopup();
+        };
 
-        li.innerHTML = `
-          <div class="marker-icon">${m.icon || "📍"}</div>
-          <div class="marker-info">${m.name}</div>
-        `;
-
-        li.addEventListener("click", () => {
-          const ref = markerRefs.find(ref => ref.name === m.name.toLowerCase());
-          if (ref) {
-            map.setView(m.coords, 17);
-            ref.marker.openPopup();
-            toggleSidebar(false);
-          }
-        });
-
-        groupList.appendChild(li);
-      });
-
-      groupTitle.addEventListener("click", () => {
-        const isExpanded = groupList.classList.contains("expanded");
-
-        // Tutup semua kategori
-        document.querySelectorAll(".group-list").forEach(list => {
-          list.style.maxHeight = "0px";
-          list.classList.remove("expanded");
-        });
-
-        // Hapus semua marker dari map
-        markerRefs.forEach(ref => {
-          if (map.hasLayer(ref.marker)) map.removeLayer(ref.marker);
-        });
-
-        if (!isExpanded) {
-          // Expand dan tambahkan marker kategori ini
-          groupList.style.maxHeight = groupList.scrollHeight + "px";
-          groupList.classList.add("expanded");
-
-          markerRefs
-            .filter(ref => ref.category === category)
-            .forEach(ref => ref.marker.addTo(map));
-        }
-      });
-
-      groupWrapper.appendChild(groupTitle);
-      groupWrapper.appendChild(groupList);
-      markerList.appendChild(groupWrapper);
-    }
-  });
-
-function toggleSidebar(force = null) {
-  const open = sidebar.classList.contains("active");
-  const shouldOpen = force !== null ? force : !open;
-  if (shouldOpen) {
-    sidebar.classList.add("active");
-    mapDiv.classList.add("sidebar-open");
-  } else {
-    sidebar.classList.remove("active");
-    mapDiv.classList.remove("sidebar-open");
-  }
-}
-
-function filterMarkers() {
-  const input = document.getElementById("searchInput").value.toLowerCase();
-  document.querySelectorAll(".marker-item").forEach(item => {
-    const name = item.getAttribute("data-name");
-    item.style.display = name.includes(input) ? "flex" : "none";
-  });
-}
-
-document.addEventListener('click', function (e) {
-  const isSidebar = sidebar.contains(e.target);
-  const isToggle = e.target.classList.contains("sidebar-toggle");
-  if (!isSidebar && !isToggle) {
-    toggleSidebar(false);
+        markerListContainer.appendChild(itemDiv);
+      }
+    });
   }
 });

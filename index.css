@@ -1,118 +1,74 @@
 html, body {
-    margin: 0;
-    padding: 0;
-    height: 100%;
-  }
-  .group-wrapper {
-    margin-bottom: 10px;
-  }
-  
-  .group-title {
-    font-weight: bold;
-    cursor: pointer;
-    padding: 8px 10px;
-    background: #f0f0f0;
-    border-left: 3px solid #0077ff;
-    transition: background 0.3s;
-  }
-  
-  .group-title:hover {
-    background: #e0e0e0;
-  }
-  
-  .group-list {
-    list-style: none;
-    padding-left: 10px;
-    margin: 0;
-    overflow: hidden;
-    max-height: 0;
-    transition: max-height 0.3s ease;
-  }
-  .navbar {
-    height: 50px;
-    background-color: #222;
-    color: white;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0 20px;
-    position: relative;
-    z-index: 1001;
-  }
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  font-family: sans-serif;
+}
 
-.sidebar-toggle {
-  font-size: 24px;
-  cursor: pointer;
+.navbar {
+  background-color: #222;
+  color: white;
+  padding: 10px 20px;
+  font-weight: bold;
+  font-size: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+#filterBar {
+  padding: 10px;
+  background: #f1f1f1;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
 }
 
 #map {
-    height: calc(100vh - 50px);
-    width: 100%;
-  }
-
-.sidebar {
-  position: fixed;
-  top: 0;
-  right: -320px;
-  width: 320px;
-  height: 100%;
-  background: #fff;
-  box-shadow: -2px 0 6px rgba(0,0,0,0.3);
-  transition: right 0.3s ease;
-  z-index: 999;
-  overflow-y: auto;
-}
-
-.sidebar.active {
-  right: 0;
-}
-
-.sidebar h3 {
-  margin: 0;
-  padding: 15px;
-  background: #007bff;
-  color: white;
-}
-
-.search-box {
-  padding: 10px;
-}
-
-.search-box input {
+  height: calc(100vh - 100px);
   width: 100%;
-  padding: 8px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
 }
 
-.marker-list {
-  list-style: none;
-  margin: 0;
-  padding: 0;
+select, input {
+  padding: 6px;
+  font-size: 14px;
+}
+
+#markerListContainer {
+  max-height: 200px;
+  width: 300px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ccc;
+  padding: 10px;
 }
 
 .marker-item {
   display: flex;
-  gap: 10px;
   align-items: center;
-  padding: 10px;
   border-bottom: 1px solid #eee;
+  padding: 8px;
   cursor: pointer;
-  transition: background 0.2s;
+  transition: background 0.2s ease;
 }
 
 .marker-item:hover {
-  background-color: #f0f0f0;
+  background: #f9f9f9;
 }
 
-.marker-info {
-  flex-grow: 1;
+.marker-item span {
+  margin-right: 8px;
 }
 
-.marker-icon {
-  font-size: 20px;
+.hidden {
+  display: none;
 }
 
-#map.sidebar-open {
-  margin-right: 320px;
+#markerPanel {
+  padding: 10px;
+  background: #fff;
+  max-height: 40vh;
+  overflow-y: auto;
+  border-top: 1px solid #ccc;
 }
