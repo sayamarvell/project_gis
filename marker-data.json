@@ -1,3 +1,200 @@
 [
-
+  {
+    "nama_marker": "Tower A",
+    "provider": "Telkomsel",
+    "longitude": 112.7371,
+    "latitude": -7.2575,
+    "provinsi": "JAWA TIMUR",
+    "lokasi": "KOTA SURABAYA",
+    "kecamatan": "GENTENG",
+    "kelurahan": "Ketabang",
+    "category": "Ketabang"
+  },
+  {
+    "nama_marker": "Tower B",
+    "provider": "Indosat",
+    "longitude": 112.7305,
+    "latitude": -7.2681,
+    "provinsi": "JAWA TIMUR",
+    "lokasi": "KOTA SURABAYA",
+    "kecamatan": "TEGALSARI",
+    "kelurahan": "Tegalsari",
+    "category": "Tegalsari"
+  },
+  {
+    "nama_marker": "Tower C",
+    "provider": "XL Axiata",
+    "longitude": 112.7388,
+    "latitude": -7.2652,
+    "provinsi": "JAWA TIMUR",
+    "lokasi": "KOTA SURABAYA",
+    "kecamatan": "GUBENG",
+    "kelurahan": "Airlangga",
+    "category": "Airlangga"
+  },
+  {
+    "nama_marker": "Tower D",
+    "provider": "Smartfren",
+    "longitude": 112.7265,
+    "latitude": -7.2741,
+    "provinsi": "JAWA TIMUR",
+    "lokasi": "KOTA SURABAYA",
+    "kecamatan": "WONOKROMO",
+    "kelurahan": "Darmo",
+    "category": "Darmo"
+  },
+  {
+    "nama_marker": "Tower E",
+    "provider": "3 (Tri)",
+    "longitude": 112.7283,
+    "latitude": -7.3201,
+    "provinsi": "JAWA TIMUR",
+    "lokasi": "KOTA SURABAYA",
+    "kecamatan": "RUNGKUT",
+    "kelurahan": "Kali Rungkut",
+    "category": "Kali Rungkut"
+  },
+  {
+    "nama_marker": "Tower F",
+    "provider": "Telkomsel",
+    "longitude": 112.7229,
+    "latitude": -7.4172,
+    "provinsi": "JAWA TIMUR",
+    "lokasi": "KABUPATEN SIDOARJO",
+    "kecamatan": "BUDURAN",
+    "kelurahan": "Buduran",
+    "category": "Buduran"
+  },
+  {
+    "nama_marker": "Tower G",
+    "provider": "Indosat",
+    "longitude": 112.7201,
+    "latitude": -7.4203,
+    "provinsi": "JAWA TIMUR",
+    "lokasi": "KABUPATEN SIDOARJO",
+    "kecamatan": "BUDURAN",
+    "kelurahan": "Siwalanpanji",
+    "category": "Siwalanpanji"
+  },
+  {
+    "nama_marker": "Tower H",
+    "provider": "XL Axiata",
+    "longitude": 112.7132,
+    "latitude": -7.4502,
+    "provinsi": "JAWA TIMUR",
+    "lokasi": "KABUPATEN SIDOARJO",
+    "kecamatan": "SIDOARJO",
+    "kelurahan": "Magersari",
+    "category": "Magersari"
+  },
+  {
+    "nama_marker": "Tower I",
+    "provider": "Smartfren",
+    "longitude": 112.7102,
+    "latitude": -7.4600,
+    "provinsi": "JAWA TIMUR",
+    "lokasi": "KABUPATEN SIDOARJO",
+    "kecamatan": "SIDOARJO",
+    "kelurahan": "Lemahputro",
+    "category": "Lemahputro"
+  },
+  {
+    "nama_marker": "Tower J",
+    "provider": "3 (Tri)",
+    "longitude": 112.7050,
+    "latitude": -7.4651,
+    "provinsi": "JAWA TIMUR",
+    "lokasi": "KABUPATEN SIDOARJO",
+    "kecamatan": "TAMAN",
+    "kelurahan": "Kletek",
+    "category": "Kletek"
+  },
+  {
+    "nama_marker": "Tower Jakarta 1",
+    "provider": "Telkomsel",
+    "latitude": -6.200000,
+    "longitude": 106.816666,
+    "provinsi": "DKI JAKARTA",
+    "lokasi": "JAKARTA PUSAT",
+    "kecamatan": "GAMBIR",
+    "kelurahan": "Gambir",
+    "category": "Gambir"
+  },
+  {
+    "nama_marker": "Tower Jakarta 2",
+    "provider": "Indosat",
+    "latitude": -6.214620,
+    "longitude": 106.845130,
+    "provinsi": "DKI JAKARTA",
+    "lokasi": "JAKARTA SELATAN",
+    "kecamatan": "SETIABUDI",
+    "kelurahan": "Karet",
+    "category": "Karet"
+  },
+  {
+    "nama_marker": "Tower Jakarta 3",
+    "provider": "XL Axiata",
+    "latitude": -6.231500,
+    "longitude": 106.800300,
+    "provinsi": "DKI JAKARTA",
+    "lokasi": "JAKARTA SELATAN",
+    "kecamatan": "KEBAYORAN BARU",
+    "kelurahan": "Gandaria Utara",
+    "category": "Gandaria Utara"
+  },
+  {
+    "nama_marker": "Tower Banda Aceh 1",
+    "provider": "Telkomsel",
+    "longitude": 95.3193,
+    "latitude": 5.5483,
+    "provinsi": "ACEH",
+    "lokasi": "KOTA BANDA ACEH",
+    "kecamatan": "KUTA RAJA",
+    "kelurahan": "Peunayong",
+    "category": "Peunayong"
+  },
+  {
+    "nama_marker": "Tower Banda Aceh 2",
+    "provider": "Indosat",
+    "longitude": 95.3331,
+    "latitude": 5.5462,
+    "provinsi": "ACEH",
+    "lokasi": "KOTA BANDA ACEH",
+    "kecamatan": "SYIAH KUALA",
+    "kelurahan": "Darussalam",
+    "category": "Darussalam"
+  },
+  {
+    "nama_marker": "Tower Aceh Besar",
+    "provider": "XL Axiata",
+    "longitude": 95.4184,
+    "latitude": 5.5097,
+    "provinsi": "ACEH",
+    "lokasi": "KABUPATEN ACEH BESAR",
+    "kecamatan": "INGIN JAYA",
+    "kelurahan": "Lambaro",
+    "category": "Lambaro"
+  },
+  {
+    "nama_marker": "Tower Lhokseumawe",
+    "provider": "Smartfren",
+    "longitude": 97.1445,
+    "latitude": 5.1877,
+    "provinsi": "ACEH",
+    "lokasi": "KOTA LHOKSEUMAWE",
+    "kecamatan": "MUARA DUA",
+    "kelurahan": "Ujung Blang",
+    "category": "Ujung Blang"
+  },
+  {
+    "nama_marker": "Tower Langsa",
+    "provider": "3 (Tri)",
+    "longitude": 97.9648,
+    "latitude": 4.4683,
+    "provinsi": "ACEH",
+    "lokasi": "KOTA LANGSA",
+    "kecamatan": "LANGSA BARAT",
+    "kelurahan": "Gampong Jawa",
+    "category": "Gampong Jawa"
+  }
 ]

@@ -4,7 +4,17 @@ L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
 }).addTo(map);
 
 let markerRefs = [];
-let grouped = {};
+let allMarkers = [];
+
+// Gunakan marker custom (ikon rumah sakit berwarna merah)
+const hospitalIcon = L.icon({
+  iconUrl: 'https://png.pngtree.com/png-clipart/20221229/original/pngtree-hospital-location-pin-icon-in-red-color-png-image_8824531.png',  // Gambar rumah sakit yang kamu upload
+  shadowUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png',
+  iconSize: [45, 45],       // Ukuran marker (ubah sesuai kebutuhan)
+  iconAnchor: [15, 45],     // Titik anchor pada marker
+  shadowSize: [41, 41],
+  shadowAnchor: [12, 41]
+});
 
 const provinsiSelect = document.getElementById("provinsiSelect");
 const kotaSelect = document.getElementById("kotaSelect");
@@ -12,123 +22,118 @@ const kecamatanSelect = document.getElementById("kecamatanSelect");
 const kelurahanSelect = document.getElementById("kelurahanSelect");
 const markerListContainer = document.getElementById("markerListContainer");
 
+// Ambil data marker
 fetch('marker-data.json')
   .then(res => res.json())
   .then(data => {
-    data.forEach(m => {
-      const category = m.category || "Lainnya";
-      if (!grouped[category]) grouped[category] = [];
-      grouped[category].push(m);
-    });
+    allMarkers = data;
   });
 
+// Ambil daftar provinsi
 fetch("https://www.emsifa.com/api-wilayah-indonesia/api/provinces.json")
   .then(res => res.json())
   .then(data => {
     data.forEach(prov => {
       const option = document.createElement("option");
-      option.value = prov.id;
+      option.value = prov.name;
       option.textContent = prov.name;
       provinsiSelect.appendChild(option);
     });
   });
 
 provinsiSelect.addEventListener("change", function () {
-  const provId = this.value;
+  const selectedProv = this.value;
+
   kotaSelect.innerHTML = `<option value="">-- Pilih Kota/Kabupaten --</option>`;
   kecamatanSelect.innerHTML = `<option value="">-- Pilih Kecamatan --</option>`;
   kelurahanSelect.innerHTML = `<option value="">-- Pilih Kelurahan --</option>`;
-  kotaSelect.disabled = true;
-  kecamatanSelect.disabled = true;
-  kelurahanSelect.disabled = true;
+  kotaSelect.disabled = kecamatanSelect.disabled = kelurahanSelect.disabled = true;
 
-  if (!provId) return;
+  markerRefs.forEach(ref => map.removeLayer(ref));
+  markerRefs = [];
+  markerListContainer.innerHTML = "";
 
-  fetch(`https://www.emsifa.com/api-wilayah-indonesia/api/regencies/${provId}.json`)
-    .then(res => res.json())
-    .then(data => {
-      data.forEach(kota => {
-        const option = document.createElement("option");
-        option.value = kota.id;
-        option.textContent = kota.name;
-        kotaSelect.appendChild(option);
-      });
-      kotaSelect.disabled = false;
-    });
+  const filtered = allMarkers.filter(m => m.provinsi === selectedProv);
+  filtered.forEach(m => {
+    const marker = L.marker([m.latitude, m.longitude], { icon: hospitalIcon })
+      .bindPopup(`<h3>${m.nama_marker}</h3><p>${m.provider}</p>`);
+    marker.addTo(map);
+    markerRefs.push(marker);
+
+    const item = document.createElement("div");
+    item.className = "marker-item";
+    item.innerHTML = `<span style="margin-right:8px;">📍</span><strong>${m.nama_marker}</strong>`;
+    item.onclick = () => {
+      map.setView([m.latitude, m.longitude], 17);
+      marker.openPopup();
+    };
+    markerListContainer.appendChild(item);
+  });
+
+  const kotaList = [...new Set(filtered.map(m => m.lokasi))];
+  kotaList.forEach(kota => {
+    const option = document.createElement("option");
+    option.value = kota;
+    option.textContent = kota;
+    kotaSelect.appendChild(option);
+  });
+  kotaSelect.disabled = false;
 });
 
 kotaSelect.addEventListener("change", function () {
-  const kotaId = this.value;
+  const selectedKota = this.value;
+
   kecamatanSelect.innerHTML = `<option value="">-- Pilih Kecamatan --</option>`;
   kelurahanSelect.innerHTML = `<option value="">-- Pilih Kelurahan --</option>`;
-  kecamatanSelect.disabled = true;
-  kelurahanSelect.disabled = true;
+  kecamatanSelect.disabled = kelurahanSelect.disabled = true;
 
-  if (!kotaId) return;
-
-  fetch(`https://www.emsifa.com/api-wilayah-indonesia/api/districts/${kotaId}.json`)
-    .then(res => res.json())
-    .then(data => {
-      data.forEach(kec => {
-        const option = document.createElement("option");
-        option.value = kec.id;
-        option.textContent = kec.name;
-        kecamatanSelect.appendChild(option);
-      });
-      kecamatanSelect.disabled = false;
-    });
+  const kecList = [...new Set(allMarkers.filter(m => m.lokasi === selectedKota).map(m => m.kecamatan))];
+  kecList.forEach(kec => {
+    const option = document.createElement("option");
+    option.value = kec;
+    option.textContent = kec;
+    kecamatanSelect.appendChild(option);
+  });
+  kecamatanSelect.disabled = false;
 });
 
 kecamatanSelect.addEventListener("change", function () {
-  const kecId = this.value;
+  const selectedKec = this.value;
+
   kelurahanSelect.innerHTML = `<option value="">-- Pilih Kelurahan --</option>`;
   kelurahanSelect.disabled = true;
 
-  if (!kecId) return;
-
-  fetch(`https://www.emsifa.com/api-wilayah-indonesia/api/villages/${kecId}.json`)
-    .then(res => res.json())
-    .then(data => {
-      data.forEach(kel => {
-        const option = document.createElement("option");
-        option.value = kel.name; 
-        option.textContent = kel.name;
-        kelurahanSelect.appendChild(option);
-      });
-      kelurahanSelect.disabled = false;
-    });
+  const kelList = [...new Set(allMarkers.filter(m => m.kecamatan === selectedKec).map(m => m.kelurahan))];
+  kelList.forEach(kel => {
+    const option = document.createElement("option");
+    option.value = kel;
+    option.textContent = kel;
+    kelurahanSelect.appendChild(option);
+  });
+  kelurahanSelect.disabled = false;
 });
 
 kelurahanSelect.addEventListener("change", function () {
   const selectedKelurahan = this.value;
+
+  markerRefs.forEach(ref => map.removeLayer(ref));
+  markerRefs = [];
   markerListContainer.innerHTML = "";
 
-  markerRefs.forEach(ref => {
-    if (map.hasLayer(ref.marker)) map.removeLayer(ref.marker);
+  const filtered = allMarkers.filter(m => m.kelurahan === selectedKelurahan);
+  filtered.forEach(m => {
+    const marker = L.marker([m.latitude, m.longitude], { icon: hospitalIcon })
+      .bindPopup(`<h3>${m.nama_marker}</h3><p>${m.provider}</p>`);
+    marker.addTo(map);
+    markerRefs.push(marker);
+
+    const item = document.createElement("div");
+    item.className = "marker-item";
+    item.innerHTML = `<span style="margin-right:8px;">📍</span><strong>${m.nama_marker}</strong>`;
+    item.onclick = () => {
+      map.setView([m.latitude, m.longitude], 17);
+      marker.openPopup();
+    };
+    markerListContainer.appendChild(item);
   });
-  markerRefs = [];
-
-  if (!selectedKelurahan) return;
-
-  for (const category in grouped) {
-    grouped[category].forEach(m => {
-      if (m.category === selectedKelurahan) {
-        const marker = L.marker(m.coords).bindPopup(`<h3>${m.name}</h3>`);
-        marker.addTo(map);
-
-        markerRefs.push({ marker, name: m.name.toLowerCase(), category });
-
-        const itemDiv = document.createElement("div");
-        itemDiv.className = "marker-item";
-        itemDiv.setAttribute("data-name", m.name.toLowerCase());
-        itemDiv.innerHTML = `<span style="margin-right: 8px;">${m.icon || "📍"}</span><strong>${m.name}</strong>`;
-        itemDiv.onclick = () => {
-          map.setView(m.coords, 17);
-          marker.openPopup();
-        };
-
-        markerListContainer.appendChild(itemDiv);
-      }
-    });
-  }
 });
